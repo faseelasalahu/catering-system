@@ -40,7 +40,7 @@ export default function Register() {
             htmlFor="firstname"
             className="block mb-1 text-xl font-medium text-heading p-4"
           >
-            Your Name
+            Your Name 
           </label>
           <input
             type="text"
