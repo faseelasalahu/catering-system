@@ -7,6 +7,7 @@ import { auth } from '../lib/firebase';
 export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  
   const navigate = useNavigate()
 
 
@@ -45,6 +46,7 @@ export default function Register() {
           <input
             type="text"
             id="fname"
+           
             className="border-2 border-orange-600 text-heading text-sm rounded-xl focus:ring-brand   w-full px-3 py-2.5 shadow-xs "
             placeholder="Enter Your Name.."
             required

@@ -56,6 +56,7 @@ const handleSubmit = async(e) =>{
           <label
             htmlFor="password"
             className="block mb-1 text-xl font-medium text-heading p-4"
+            autocomplete="current-password"
           >
             Password
           </label>
