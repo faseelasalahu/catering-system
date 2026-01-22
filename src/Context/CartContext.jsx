@@ -20,9 +20,18 @@ export  const CartProvider =({children}) =>{
         alert(`${product.name} added to cart!`)   
         
     }
+    //Remove item from cart//
+    const removeFromCart= (id)=>{
+        setCartItems((prev)=>prev.filter(item=>item.id !== id))
+    }
+    //update quantity//
+    const updateQuantity = (id, amount)=>{
+        setCartItems((prev)=>prev.map((item)=>item.id === id ? {...item,quantity:Math.max(1,item.quantity+amount)}:item
+    ))
+    }
 
     return(
-        <CartContext.Provider value= {{cartItems, addToCart}}>
+        <CartContext.Provider value= {{cartItems, addToCart,removeFromCart,updateQuantity}}>
             {children}
         </CartContext.Provider>
     )

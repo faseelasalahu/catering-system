@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import { CartProvider } from "./Context/CartContext";
 
 import AddProduct from "./Pages/AddProduct";
+import CartPage from "./Pages/CartPage";
 export default function () {
   const { checkAuth } = useAuthStore();
 
@@ -27,6 +28,7 @@ export default function () {
           <Route path="/register" element={<Register />} />
           <Route path="/product" element={<Product />} />
           <Route path="/addproduct" element={<AddProduct />} />
+          <Route path="/cartpage" element={ <CartPage />} />
         </Routes>
       </CartProvider>
     </BrowserRouter>
