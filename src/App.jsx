@@ -10,6 +10,7 @@ import { CartProvider } from "./Context/CartContext";
 
 import AddProduct from "./Pages/AddProduct";
 import CartPage from "./Pages/CartPage";
+import CheckOut from "./Pages/CheckOut";
 export default function () {
   const { checkAuth } = useAuthStore();
 
@@ -29,6 +30,7 @@ export default function () {
           <Route path="/product" element={<Product />} />
           <Route path="/addproduct" element={<AddProduct />} />
           <Route path="/cartpage" element={ <CartPage />} />
+          <Route path="/checkout" element={ <CheckOut />} />
         </Routes>
       </CartProvider>
     </BrowserRouter>

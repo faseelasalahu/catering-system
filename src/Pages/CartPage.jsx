@@ -1,10 +1,11 @@
-import React from 'react'
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useCart } from '../Context/CartContext'
 
 export default function CartPage() {
 const {cartItems,removeFromCart,updateQuantity} = useCart();
 const subTotal = cartItems.reduce((acc,item)=>acc+(item.price * item.quantity),0)
 const total = subTotal+50;
+const navigate = useNavigate()
   return (
     <div className=" max-w-6xl mx-auto p-4">
           <h2  className="text-xl font-semibold text-slate-900 mb-8">Shopping Cart</h2>
@@ -86,7 +87,7 @@ const total = subTotal+50;
                       <li  className="flex flex-wrap gap-3 text-sm py-3">Tax <span  className="ml-auto font-semibold text-slate-900">₹0.00</span></li>
                       <li  className="flex flex-wrap gap-3 text-sm py-3 font-semibold text-slate-900">Total <span className="ml-auto">₹{total}</span></li>
                   </ul>
-                  <button type="button"  className="mt-6 text-sm font-medium tracking-wide px-4 py-2 w-full bg-gray-800 hover:bg-gray-900 text-white rounded-md cursor-pointer">Proceed to Checkout</button>
+                  <button type="button" onClick={()=> navigate('/checkout')} className="mt-6 text-sm font-medium tracking-wide px-4 py-2 w-full bg-orange-600 hover:bg-orange-500 text-white rounded-md cursor-pointer">Proceed to Checkout</button>
               </div>
           </div>
           </div>
