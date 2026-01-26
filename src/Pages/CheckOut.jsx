@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { useCart } from "../Context/CartContext";
 import { useAuthStore } from "../Store/useAuthStore";
 import { useNavigate } from "react-router-dom";
+import { addDoc,collection } from "firebase/firestore";
+import { db } from '../lib/firebase';
 
 export default function CheckOut() {
+  const [loading, setLoading] = useState(true)
   const { cartItems,  clearCart } = useCart();
   const { user } = useAuthStore();
   const navigate = useNavigate();
@@ -19,12 +22,38 @@ export default function CheckOut() {
     (acc, item) => acc + item.price * item.quantity,0
   );
   const total = subTotal * formData.guests;
-  const handleSubmit = (e) => {
+  const  handleSubmit = async(e) => {
     e.preventDefault();
-    console.log("Order Data:", { ...formData, items: cartItems, total });
-    alert("Order Placed Successfully!");
+    setLoading(true);
+    
+   try{
+      const orderData = {
+        userId : user.uid,
+        userEmail: user.email,
+        customerName:formData.name,
+        phone: formData.phone,
+        address: formData.address,
+        eventDate: formData.eventdate,
+        guestsCount: Number(formData.guests),
+        items: cartItems,
+        totalAmout : total,
+        status:"pending",
+        createdAt : new Date()
+      }
+      // to store firebase//
+  const docRef = await addDoc(collection(db,'order'),orderData)
+      alert("Order Placed Successfully!");
     clearCart()
-    navigate('/')
+    navigate('/success', { state: { orderId: docRef.id,
+       customerName: formData.name,
+      phone : formData.phone,
+    address: formData.address } })
+   }catch(error){
+    console.log("order Failed",error.message)
+   }finally{
+    setLoading(false)
+   }
+    
   };
 
   return (
