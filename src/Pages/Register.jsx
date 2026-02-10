@@ -34,8 +34,8 @@ export default function Register() {
 
   return (
     <div className="text-center p-4 m-10">
-      <h1 className=" font-bold text-orange-600 text-5xl mb-10">Register</h1>
-      <form onSubmit={handleSubmit} className="max-w-sm mx-auto">
+      <h1 className=" font-bold text-orange-600 text-5xl m-10">Register</h1>
+      <form onSubmit={handleSubmit} className="max-w-sm mx-auto dark:text-gray-100">
         <div className="mr-3  ">
           <label
             htmlFor="firstname"

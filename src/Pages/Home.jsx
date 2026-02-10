@@ -23,9 +23,9 @@ export default function Home() {
 
 
   return (
-    <div className="w-full">
+    <div className="w-full bg-white-200 dark:bg-slate-900 text-gray-800 dark:text-gray-100" >
       {/* 1. Hero Section */}
-      <div className="relative h-[500px] flex items-center justify-center bg-gray-900">
+      <div className="relative h-[500px] flex items-center justify-center bg-gray-900 ">
         <video className="absolute inset-0 w-full h-full object-cover" autoPlay loop muted playsInline>
           <source src={HeroVd} type="video/mp4"></source>
         </video>
@@ -44,17 +44,16 @@ export default function Home() {
 
       {/* 2. Category Section */}
       <div className="max-w-7xl mx-auto py-16 px-4">
-        <h2 className="text-3xl font-bold text-center mb-12">Browse by Category</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <h2 className="text-3xl font-bold text-center mb-12 ">Browse by Category</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 ">
           { cateogryItems .map((cat) => (
             <div 
               key={cat.name} 
               onClick={() => navigate('/product', { state: { selectedCategory: cat.name } })}
-              className="cursor-pointer border rounded-2xl p-8 text-center hover:shadow-xl transition hover:border-orange-500"
-            >
+              className="cursor-pointer border rounded-2xl p-8 text-center hover:shadow-xl transition hover:border-orange-500 text-white ">
               <img src={cat.image} alt={cat.name} className="w-full h-40 object-cover" />
               <div className="p-6">
-              <h3 className="text-2xl font-bold text-gray-800">{cat.name}</h3>
+              <h3 className="text-2xl font-bold text-gray-800 dark:text-white">{cat.name}</h3>
 
               <p className="text-orange-600 mt-2 font-medium">View Items →</p>
             </div>

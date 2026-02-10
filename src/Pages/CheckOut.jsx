@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
+import { onAuthStateChanged } from "firebase/auth";
 import { useCart } from "../Context/CartContext";
 import { useAuthStore } from "../Store/useAuthStore";
 import { useNavigate } from "react-router-dom";
-import { addDoc,collection } from "firebase/firestore";
+import { addDoc,collection,doc,getDoc} from "firebase/firestore";
 import { db } from '../lib/firebase';
+import toast from "react-hot-toast";
 
 export default function CheckOut() {
   const [loading, setLoading] = useState(true)
@@ -17,6 +19,35 @@ export default function CheckOut() {
     eventdate: "",
     guests: 1,
   });
+
+useEffect(() => {
+  const fetchUserData = async () => {
+ 
+    if (!user?.uid) { 
+    console.log("No User Found")
+    return
+    }
+    try {
+      const docRef = doc(db, "users", user.uid);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const userData = docSnap.data();
+        setFormData(prev => ({
+          ...prev,
+          name: userData.name || "",
+          phone: userData.phone || "",
+          address: userData.address || "",
+        }));
+        console.log(userData)
+      }
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
+
+  fetchUserData();
+}, [user]); 
 
   const subTotal = cartItems.reduce(
     (acc, item) => acc + item.price * item.quantity,0
@@ -42,7 +73,13 @@ export default function CheckOut() {
       }
       // to store firebase//
   const docRef = await addDoc(collection(db,'order'),orderData)
-      alert("Order Placed Successfully!");
+     toast.success("Order Placed Successfully",{
+           style :{
+    borderRadius: '10px',
+      background: '#e37609',
+      color: '#fff',
+  }
+     })
     clearCart()
     navigate('/success', { state: { orderId: docRef.id,
        customerName: formData.name,
@@ -56,6 +93,7 @@ export default function CheckOut() {
     
   };
 
+
   return (
     <div className="max-w-6xl mx-auto p-4 md:p-10">
       <h1 className="text-3xl font-bold text-orange-600 mb-10 text-center">
@@ -64,24 +102,25 @@ export default function CheckOut() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
         {/* 1. Delivery Form on left side */}
-        <div className="bg-white p-6 border border-gray-200 rounded-2xl shadow-sm">
-          <h2 className="text-xl font-bold mb-6 text-slate-800">
+        <div className="bg-white p-6 border border-gray-200 rounded-2xl shadow-sm dark:bg-slate-900 text-gray-800 dark:text-gray-100">
+          <h2 className="text-xl font-bold mb-6 text-slate-800 dark:text-orange-800">
             Event Details
           </h2>
 
-          <form onSubmit= {handleSubmit} className="space-y-5">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <form onSubmit= {handleSubmit} className="space-y-5 ">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
               <div>
-                <label className="block text-sm font-medium mb-1">
+                <label className="block text-sm font-medium mb-1 ">
                   Full Name
                 </label>
                 <input
                   type="text"
+                  value={formData.name}
                   placeholder="Your Name"
                   onChange={(e) =>
                     setFormData({ ...formData, name: e.target.value })
                   }
-                  className="w-full border border-gray-300 rounded-xl px-4 py-2.5 focus:border-orange-500 outline-none"
+                  className="w-full border border-gray-300 rounded-xl px-4 py-2.5 focus:border-orange-500 outline-none dark:bg-slate-900 text-gray-800 dark:text-gray-100"
                 />
               </div>
               <div>
@@ -91,10 +130,11 @@ export default function CheckOut() {
                 <input
                   type="tel"
                   placeholder="Contact Number"
+                  value={formData.phone}
                   onChange={(e) =>
                     setFormData({ ...formData, phone: e.target.value })
                   }
-                  className="w-full border border-gray-300 rounded-xl px-4 py-2.5 focus:border-orange-500 outline-none"
+                  className="w-full border border-gray-300 rounded-xl px-4 py-2.5 focus:border-orange-500 outline-none dark:bg-slate-900 text-gray-800 dark:text-gray-100"
                 />
               </div>
             </div>
@@ -109,7 +149,7 @@ export default function CheckOut() {
                   onChange={(e) =>
                     setFormData({ ...formData, eventdate: e.target.value })
                   }
-                  className="w-full border border-gray-300 rounded-xl px-4 py-2.5 focus:border-orange-500 outline-none"
+                  className="w-full border border-gray-300 rounded-xl px-4 py-2.5 focus:border-orange-500 outline-none dark:bg-slate-900 text-gray-800 dark:text-gray-100"
                 />
               </div>
               <div>
@@ -122,7 +162,7 @@ export default function CheckOut() {
                     setFormData({ ...formData, guests: e.target.value })
                   }
                   placeholder="Number of people"
-                  className="w-full border border-gray-300 rounded-xl px-4 py-2.5 focus:border-orange-500 outline-none"
+                  className="w-full border border-gray-300 rounded-xl px-4 py-2.5 focus:border-orange-500 outline-none dark:bg-slate-900 text-gray-800 dark:text-gray-100"
                 />
               </div>
             </div>
@@ -134,8 +174,9 @@ export default function CheckOut() {
               <textarea
                 rows="4"
                 onChange={(e) => ({ ...formData, address: e.target.value })}
+                value={formData.address}
                 placeholder="Full address of the event venue"
-                className="w-full border border-gray-300 rounded-xl px-4 py-2.5 focus:border-orange-500 outline-none"
+                className="w-full border border-gray-300 rounded-xl px-4 py-2.5 focus:border-orange-500 outline-none dark:bg-slate-900 text-gray-800 dark:text-gray-100"
               ></textarea>
             </div>
 
@@ -149,8 +190,8 @@ export default function CheckOut() {
         </div>
 
         {/* 2. Order Summery on right side */}
-        <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 h-fit">
-          <h2 className="text-xl font-bold mb-6 text-slate-800">
+        <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 h-fit dark:bg-slate-900 text-gray-800 dark:text-gray-100">
+          <h2 className="text-xl font-bold mb-6 text-slate-800 dark:text-orange-800">
             Order Summary
           </h2>
 
@@ -177,11 +218,11 @@ export default function CheckOut() {
           </div>
 
           <div className="space-y-3">
-            <div className="flex justify-between text-slate-600">
+            <div className="flex justify-between text-slate-600 dark:text-gray-100">
               <span>Subtotal</span>
               <span>₹{total}</span>
             </div>
-            <div className="flex justify-between text-slate-600">
+            <div className="flex justify-between text-slate-600 dark:text-gray-100">
               <span>Shipping</span>
               <span className="text-green-600 font-medium">₹50</span>
             </div>

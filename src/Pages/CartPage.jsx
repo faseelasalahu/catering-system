@@ -1,17 +1,26 @@
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useCart } from '../Context/CartContext'
+import EmptyCart from './EmptyCart';
 
 export default function CartPage() {
 const {cartItems,removeFromCart,updateQuantity} = useCart();
 const subTotal = cartItems.reduce((acc,item)=>acc+(item.price * item.quantity),0)
 const total = subTotal+50;
 const navigate = useNavigate()
+ 
+
+if (cartItems.length === 0){
+           return  <EmptyCart />
+              }      
+
+              
   return (
-    <div className=" max-w-6xl mx-auto p-4">
+       
+    <div className=" max-w-6xl mx-auto p-4 ">
           <h2  className="text-xl font-semibold text-slate-900 mb-8">Shopping Cart</h2>
          
            <div  className="overflow-x-auto">
-              <table  className="w-full border-collapse divide-y divide-gray-300">
+              <table  className="w-full border-collapse divide-y divide-gray-300 ">
                   <thead  className="whitespace-nowrap text-left">
                       <tr>
                           <th className="text-[15px] text-slate-500 font-medium p-2">Description</th>
@@ -21,7 +30,7 @@ const navigate = useNavigate()
                           <th className="text-[15px] text-slate-500 font-medium p-2">Price</th>
                       </tr>
                   </thead>
-                  <tbody  className="whitespace-nowrap divide-y divide-gray-300">
+                  <tbody  className="whitespace-nowrap divide-y divide-gray-300 ">
                     {cartItems.map((item)=>(
                         <tr key={item.id}>
                           <td  className="px-2 py-4">
@@ -31,7 +40,7 @@ const navigate = useNavigate()
                                       <img src={item.imageUrl}  className="w-full h-full object-contain" />
                                   </div>
                                   <div>
-                                      <p  className="text-[15px] font-semibold text-slate-900">{item.name}</p>
+                                      <p  className="text-[15px] font-semibold text-slate-900 dark:text-gray-100">{item.name}</p>
                                   </div>
                               </div>
                           </td>
@@ -64,33 +73,36 @@ const navigate = useNavigate()
                               </button>
                           </td>
                           <td  className="px-2 py-4">
-                              <h4  className="text-[15px] font-semibold text-slate-900">₹{item.price}</h4>
+                              <h4  className="text-[15px] font-semibold text-slate-900 dark:text-gray-100">₹{item.price}</h4>
                           </td>
                       </tr>
-
+                
                       
                     ))}
                       
                   </tbody>
               </table>
+             
          </div>
 
-                          
+              
         
          
                              
           <div className="border-t border-gray-300">
               <div className="max-w-lg ml-auto mt-6">
-                  <ul  className="text-slate-500 font-medium divide-y divide-gray-300">
-                      <li  className="flex flex-wrap gap-3 text-sm py-3">Subtotal <span  className="ml-auto font-semibold text-slate-900">₹{subTotal}</span></li>
-                      <li  className="flex flex-wrap gap-3 text-sm py-3">Shipping <span  className="ml-auto font-semibold text-slate-900">₹50.00</span></li>
-                      <li  className="flex flex-wrap gap-3 text-sm py-3">Tax <span  className="ml-auto font-semibold text-slate-900">₹0.00</span></li>
-                      <li  className="flex flex-wrap gap-3 text-sm py-3 font-semibold text-slate-900">Total <span className="ml-auto">₹{total}</span></li>
+                  <ul  className="text-slate-500 font-medium divide-y divide-gray-300 dark:text-gray-100">
+                      <li  className="flex flex-wrap gap-3 text-sm py-3">Subtotal <span  className="ml-auto font-semibold text-slate-900 dark:text-gray-100">₹{subTotal}</span></li>
+                      <li  className="flex flex-wrap gap-3 text-sm py-3">Shipping <span  className="ml-auto font-semibold text-slate-900 dark:text-gray-100">₹50.00</span></li>
+                      <li  className="flex flex-wrap gap-3 text-sm py-3">Tax <span  className="ml-auto font-semibold text-slate-900 dark:text-gray-100">₹0.00</span></li>
+                      <li  className="flex flex-wrap gap-3 text-sm py-3 font-semibold text-slate-900">Total <span className="ml-auto dark:text-gray-100">₹{total}</span></li>
                   </ul>
                   <button type="button" onClick={()=> navigate('/checkout')} className="mt-6 text-sm font-medium tracking-wide px-4 py-2 w-full bg-orange-600 hover:bg-orange-500 text-white rounded-md cursor-pointer">Proceed to Checkout</button>
               </div>
           </div>
+          
           </div>
       
   )
+              
 }

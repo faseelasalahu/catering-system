@@ -4,6 +4,7 @@ import { db } from "../lib/firebase";
 import { useLocation, useNavigate } from "react-router-dom";
 import { collection, getDocs } from "firebase/firestore";
 import { useCart } from "../Context/CartContext";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 export default function Product() {
   const { user, loading } = useAuthStore();
@@ -14,6 +15,8 @@ export default function Product() {
   const { addToCart } = useCart();
   const [category, setCategory] = useState("All");
   const [filteredItems, setFilteredItems] = useState([]);
+  const[searchTerm, setSearchTerm] = useState('')// to store search term
+  const[sortType, setSortType] = useState("default")// to store sorting type
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -41,13 +44,29 @@ export default function Product() {
  //To filtter items when change category//
  
    useEffect(() => {
-    if (category === "All") {
-      setFilteredItems(products);
-    } else {
-      const filtered = products.filter((item) => item.category === category);
-      setFilteredItems(filtered);
-    }
-  }, [category, products]);
+    let result = products;
+
+   
+       if (category !== "All") {
+    result = result.filter(item => item.category === category);
+  }
+   
+  // 2. search using name (Case-insensitive)
+  if (searchTerm) {
+    result = result.filter(item => 
+      item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }
+
+  // 3. arrange according to price
+  if (sortType === "lowToHigh") {
+    result = [...result].sort((a, b) => a.price - b.price);
+  } else if (sortType === "highToLow") {
+    result = [...result].sort((a, b) => b.price - a.price);
+  }
+
+  setFilteredItems(result);
+}, [category, searchTerm, sortType, products]);
 
 
   useEffect(() => {
@@ -60,17 +79,36 @@ export default function Product() {
 
  
   return (
-  <div className="max-w-7xl mx-auto p-10">
-    {/* കാറ്റഗറി ഫിൽട്ടർ ബട്ടണുകൾ */}
-    <div className="flex flex-wrap justify-center gap-4 mb-10">
+  <div className="w-full mx-auto p-10 dark:bg-slate-900 text-gray-800 dark:text-gray-100 min-h-screen pt-24">
+    <div className="flex flex-col md:flex-row gap-4 mb-10 justify-between items-center px-4">
+      <div className="relative w-full md:w-96">
+    <input 
+      type="text"
+      placeholder="Search for your favorite food..."
+      className="w-full border-2 border-orange-500 rounded-xl px-10 py-2.5 outline-none focus:ring-2 ring-orange-200 transition dark:bg-slate-900 text-gray-800 dark:text-gray-100"
+      onChange={(e) => setSearchTerm(e.target.value)}
+    />
+    <span className="absolute left-3 top-3 text-gray-400" >🔍</span>
+  </div>
+
+  {/* Sorting Dropdown */}
+  <select className="w-full md:w-48 border-2 border-orange-500 rounded-xl px-4 py-2.5 outline-none bg-white font-medium cursor-pointer dark:bg-slate-900 text-gray-800 dark:text-gray-100 "
+    onChange={(e) => setSortType(e.target.value)} >
+    <option value="default">Sort by: Default</option>
+    <option value="lowToHigh">Price: Low to High</option>
+    <option value="highToLow">Price: High to Low</option>
+  </select>
+    </div>
+    {/* cateogry Buttons */}
+    <div className="flex flex-wrap justify-center gap-4 mb-10 ">
       {["All", "Breakfast", "Lunch", "Dinner"].map((cat) => (
         <button
           key={cat}
           onClick={() => setCategory(cat)}
           className={`px-6 py-2 rounded-full font-bold transition ${
             category === cat 
-              ? "bg-orange-600 text-white shadow-lg" // സെലക്ട് ചെയ്ത ബട്ടൺ
-              : "bg-gray-200 text-gray-700 hover:bg-gray-300" // സാധാരണ ബട്ടൺ
+              ? "bg-orange-600 text-white shadow-lg" 
+              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
           }`}
         >
           {cat}
@@ -86,10 +124,11 @@ export default function Product() {
           className="bg-neutral-primary-soft block max-w-sm p-6 border border-default rounded-xl shadow-xs flex flex-col h-full"
         >
           <a href="#">
-            <img
+           <LazyLoadImage
               className="rounded-xl object-cover w-full h-48"
               src={item.imageUrl}
               alt=""
+              loading="lazy"
             />
           </a>
           <a href="#">
