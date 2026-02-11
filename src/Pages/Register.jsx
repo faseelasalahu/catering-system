@@ -39,7 +39,7 @@ export default function Register() {
         <div className="mr-3  ">
           <label
             htmlFor="firstname"
-            className="block mb-1 text-xl font-medium text-heading p-4"
+            className="block mb-1 text-xl font-medium text-heading p-4  "
           >
             Your Name 
           </label>
@@ -47,7 +47,7 @@ export default function Register() {
             type="text"
             id="fname"
            
-            className="border-2 border-orange-600 text-heading text-sm rounded-xl focus:ring-brand   w-full px-3 py-2.5 shadow-xs "
+            className="border-2 border-orange-600 text-heading text-sm rounded-xl focus:ring-brand   w-full px-3 py-2.5 shadow-xs dark:text-black "
             placeholder="Enter Your Name.."
             required
           />
@@ -62,7 +62,7 @@ export default function Register() {
           <input
             type="email"
             id="email"
-            className="border-2 border-orange-600 text-heading text-sm rounded-xl focus:ring-brand   w-full px-3 py-2.5 shadow-xs "
+            className="border-2 border-orange-600 text-heading text-sm rounded-xl focus:ring-brand   w-full px-3 py-2.5 shadow-xs  dark:text-black"
             onChange={handleEmail}
             placeholder="Example@email.com"
             required
@@ -78,7 +78,7 @@ export default function Register() {
           <input
             type="password"
             id="pwd"
-            className="border-2 border-orange-600 text-heading text-sm rounded-xl focus:ring-brand   w-full px-3 py-2.5 shadow-xs placeholder:text-gray-500"
+            className="border-2 border-orange-600 text-heading text-sm rounded-xl focus:ring-brand   w-full px-3 py-2.5 shadow-xs placeholder:text-gray-500  dark:text-black"
             onChange={handlePassword}
             placeholder="Enter Your Password."
             required

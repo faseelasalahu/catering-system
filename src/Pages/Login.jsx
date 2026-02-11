@@ -46,7 +46,7 @@ const handleSubmit = async(e) =>{
           <input
             type="email"
             id="email"
-            className="border-2 border-orange-600 text-heading text-sm rounded-xl focus:ring-brand   w-full px-3 py-2.5 shadow-xs "
+            className="border-2 border-orange-600 text-heading text-sm rounded-xl focus:ring-brand   w-full px-3 py-2.5 shadow-xs dark:text-black "
             onChange={handleEmail}
             placeholder="Example@email.com"
             required
@@ -63,7 +63,7 @@ const handleSubmit = async(e) =>{
           <input
             type="password"
             id="pwd"
-            className="border-2 border-orange-600 text-heading text-sm rounded-xl focus:ring-brand   w-full px-3 py-2.5 shadow-xs placeholder:text-gray-500"
+            className="border-2 border-orange-600 text-heading text-sm rounded-xl focus:ring-brand   w-full px-3 py-2.5 shadow-xs placeholder:text-gray-500  dark:text-black"
            onChange={handlePassword}
             placeholder="Enter Your Password."
             required
