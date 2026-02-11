@@ -2,7 +2,7 @@
    
 import { useNavigate, } from 'react-router-dom'
 
-import HeroVd from '../assets/herovd.mp4'
+
 
 
 export default function Home() {
@@ -27,7 +27,7 @@ export default function Home() {
       {/* 1. Hero Section */}
       <div className="relative h-[500px] flex items-center justify-center bg-gray-900 ">
         <video className="absolute inset-0 w-full h-full object-cover" autoPlay loop muted playsInline>
-          <source src={HeroVd} type="video/mp4"></source>
+          <source src="https://www.pexels.com/download/video/4993939/ "type="video/mp4"></source>
         </video>
         
         <div className="relative z-10 text-center text-white px-4">
