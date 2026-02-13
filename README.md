@@ -38,5 +38,5 @@ Check out the live application here: https://catering-system-cf62a.firebaseapp.c
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com
-   cd dishdash-catering
+   git clone https://github.com/faseelasalahu
+   cd catering-system
