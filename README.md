@@ -1,19 +1,42 @@
-HEAD
-# catering-system
+# 🍲 DishDash - Advanced Catering Management System
 
-# React + Vite
+DishDash is a professional, full-stack catering management web application. It allows customers to browse menus, manage profiles, and place orders, while providing a powerful administrative dashboard for business owners to manage food items and track orders in real-time.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![License](https://img.shields.io)
+![React](https://img.shields.io)
+![Firebase](https://img.shields.io)
+![TailwindCSS](https://img.shields.io)
 
-Currently, two official plugins are available:
+## 🚀 Live Demo
+Check out the live application here: https://catering-system-cf62a.firebaseapp.com/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## ✨ Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 👤 Customer Side
+- **User Authentication:** Secure Signup/Login via [Firebase Auth](https://firebase.google.com).
+- **Responsive Menu:** Browse food items by categories (Lunch, Dinner, etc.).
+- **Smart Cart:** Persistent shopping cart (remains after refresh).
+- **Profile Management:** Users can save addresses and contact info for auto-filled checkouts.
+- **Order Tracking:** Real-time status updates (Pending → Preparing → Delivered) using [Firestore Snapshot](https://firebase.google.com).
 
-## Expanding the ESLint configuration
+### 🛠 Admin Side
+- **Admin Dashboard:** Statistical overview of total, pending, and delivered orders.
+- **Product Management:** CRUD operations to add, edit, or delete food items.
+- **Order Control:** Update order statuses live for customers.
+- **Protected Routes:** Unauthorized users are blocked from accessing admin areas.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project. 13bedcd (UI design completed for login register product page)
+### ⚡ Technical Optimizations
+- **Dark Mode:** Seamless theme switching with [Tailwind CSS Dark Mode](https://tailwindcss.com).
+- **Performance:** Implemented Lazy Loading, Code Splitting (React.lazy), and Skeleton Screens.
+- **CI/CD:** Automated deployment to Firebase Hosting via **GitHub Actions**.
+
+---
+
+## 🛠️ Installation & Setup
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com
+   cd dishdash-catering
